@@ -8,21 +8,78 @@
   *****************************************************************************/
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f4xx.h"
+//#include "stm32f4xx.h"
 #include "GPIO.h"
+#include "led.h"
+
+int counter = 0;
+
+    
+void InputOutputConfig()
+//void InputOutputConfig(GPIOx, Pin, Mode,Type, Speed)
+
+{
+  GPIO_Clock_Enable(GPIOD);
+  GPIO_Config(GPIOD,PIN12,OUTPUT,OUTPUT_PUSH_PULL, LOW_SPEED);
+  GPIO_Config(GPIOD,PIN15,OUTPUT,OUTPUT_PUSH_PULL, LOW_SPEED);
+  
+  
+}
+//void ButtonToggle(*GPIOx,  Pin, PinValue)
+void ButtonToggle()
+{
+  
+  while(1)
+  {
+  GPIO_Write_Pin(GPIOD, PIN12, SET);
+  if (GPIO_Read_Pin(GPIOA ,  PIN1)==1){
+    GPIO_Write_Pin(GPIOD, PIN15, SET);
+    (GPIO_Read_Pin(GPIOA ,  PIN1)==0);
+      counter++;
+  }
+  else if (counter !=0 && GPIO_Read_Pin(GPIOA ,  PIN1)==1)
+  {
+     GPIO_Write_Pin(GPIOD, PIN15, RESET);
+    
+    
+  }
+}
+}
 
 
 /* Private define ------------------------------------------------------------*/
 /*----------------Private Functions Prototype---------------------------------*/
-static void delay(unsigned int delay);
+//static void delay(unsigned int delay);
 
 /* Private variables ---------------------------------------------------------*/
 
 int main()
 {
-  GPIO_Clock_Enable(GPIOD);
+  InputOutputConfig(GPIOD, PIN12,OUTPUT,OUTPUT_PUSH_PULL, LOW_SPEED);
+  ButtonToggle(*GPIOA,  PIN1, SET);
+   
+   
+ 
   
-  GPIO_Config(GPIOD,PIN12,OUTPUT,OUTPUT_PUSH_PULL);
+  
+  
+  
+/*typedef Struct
+{
+  volatile (uint32_t) MODDER;
+  volatile (uint32_t) ODR;
+}GPIO_TypeDef;*/
+
+ // GPIO_Config(GPIOD,PIN12,OUTPUT,OUTPUT_PUSH_PULL, LOW_SPEED);
+  
+  //GPIO_Write_Port(GPIOD, 10);
+  
+  
+  
+ // GPIO_Write_Pin(GPIOD, PIN12, SET);
+  
+ // GPIO_Write_Pin(GPIOD, PIN12, RESET);
+
  // GPIO_Clock_Enable(GPIOB);
  // GPIO_Clock_Enable(GPIOC);
   //GPIO_Clock_Enable(GPIOD);
@@ -41,10 +98,8 @@ int main()
 
   while(1)
   {
-   
+     
   }
 }
-
-
 
 /**************************************END OF FILE**************************************/
